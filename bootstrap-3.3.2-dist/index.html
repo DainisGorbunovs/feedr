@@ -25,18 +25,167 @@
         background-size: 100%;
       }
     </style>
+
+      <!-- JQUERY -->
+      <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+      <script>
+      /*
+        pizza
+        You like it
+
+        Cheese, like it
+
+        Meaty, hate or not
+
+        Vegetables
+
+        Hate it -> Mozarella
+
+        Like it
+
+        Sweet? Pinapple
+
+        Like it > Pineapple pizza
+
+        Hate it, Salty
+
+        Like it > Super Supreme (PizzaHut)
+
+    <cheese>
+      <meat>
+        <vegetables>
+          <salt>Super Supreme</salt>
+        </vegetables>
+        <pineapple>Hawaiian pizza</pineapple>
+      </meat>
+      <mozarella>Margherita pizza</mozarella>
+    </cheese>
+
+    {
+      "cheese": {
+        "meat": {
+          "vegetables": { "salt": "Super Supreme" },
+          "pineapple": "Hawaiian pizza"
+        },
+        "mozarella": "Margherita pizza"
+      }
+    }
+
+    foodList[Object.keys(foodList)]
+
+      {
+        "cheese": {
+          "meat": {
+            "vegetables": { "salt": "Super Supreme" },
+            "pineapple": "Hawaiian pizza"
+          },
+          "mozarella": "Margherita pizza"
+        }
+      };
+
+      */
+
+      var foodList = {
+        "cheese": {
+            "meat": {
+                "vegetables": {
+                    "salt": {"name": "Super Supreme"}
+                },
+                "pineapple": {"name": "Hawaiian pizza"}
+            },
+            "mozarella": {"name": "Margherita pizza"}
+        }
+    }
+      var currentFood;
+
+      function foodToImgFile(pizzaName)
+      {
+        switch (pizzaName) {
+        case "cheese":
+            return "img_cheese.jpg";
+        case "meat":
+            return "img_meat.jpg";
+        case "vegetables":
+            return "img_veggies.jpg";
+        case "pineapple":
+            return "img_pineapple.jpg";
+        case "Super Supreme":
+            return "img_supreme.jpg";
+        case "Hawaiian pizza":
+            return "img_hawaiian.jpg";
+        case "Margherita pizza":
+            return "img_margherita.jpg";
+        case "salt":
+            return "img_salt.jpg";
+        }
+      }
+
+      function foodToUrl(pizzaName)
+      {
+        switch (pizzaName) {
+        case "Super Supreme":
+            return "supreme.html";
+        case "Hawaiian pizza":
+            return "hawaiin.html";
+        case "Margherita pizza":
+            return "margherita.html";
+        }
+      }
+
+      function changeImage(choiceIndex)
+      {
+        if (typeof foodList != "string" && foodList != undefined)
+        {
+
+          currentFood = Object.keys(foodList)[choiceIndex];
+          foodList = foodList[currentFood];
+          if (Object.keys(foodList)[0] == "name")
+          {
+            currentFood = foodList["name"];
+            console.log("Got to name... " + currentFood);
+            var src = foodToImgFile(currentFood);
+            $(location).attr('href',foodToUrl(currentFood));
+            return;
+          }
+          else
+          {
+            var src = foodToImgFile(Object.keys(foodList)[0]);
+            $("#foodName").html(Object.keys(foodList)[0]);
+          }
+
+          $(".sized").attr("src", "images/"+src);
+
+        }
+      }
+
+      $(document).ready(function(){
+          $("#foodName").html(Object.keys(foodList)[0]);
+          $("#like").click(function(){
+              changeImage(0);
+          });
+          $("#hate").click(function(){
+              changeImage(1);
+          });
+      });
+      </script>
+      <!-- END OF JQUERY-->
+
   </head>
   <body>
     <div class='container'>
-      <div id='img-container' style="position:fixed; left:96px; top:226px; -webkit-border-radius: 15px; -moz-border-radius: 15px; border-radius: 15px;"><img style=" min-height: 588px; max-height: 588px; min-width: 528px; ; max-width:528px;"src="http://www.teatronaturale.it/media/img/cibo/2014/Salt-014.jpg"></div>
-      <div class='text-container' style="position:fixed; left: 96px; top: 820px; max-width: 528px"> <p class='' style=" color:white; font-family: Liberation Sans; font-size: 60px;">Salt</p>
 
-      </div>
+    <div id='img-container' style="text-align: center; position:fixed; left:96px; top:226px; -webkit-border-radius: 15px; -moz-border-radius: 15px; border-radius: 15px;width:528px; height: 588px;text-align: center; ">
+      <image class="sized" sizing="cover" style="height: 588px; width: 528px;" src="images/img_cheese.jpg"></image>
+      <span id="foodName" class='text-container'  style="color: rgb(237, 227, 138);
+position:relative; top: 20px; 
+margin: 0 auto;max-width: 528px;color:white; font-family: Liberation Sans; font-size: 60px; text-transform:capitalize;"></span>
+    </div>
+
     </div>
     <div>
-      <img id="No" src="images/ButtonNo.png" style="position:fixed; left:90px; top:1010px">
+      <img id="hate"src="images/ButtonNo.png" style="position:fixed; left:90px; top:1010px">
       <img id="Help" src="images/ButtonInformation.png" style="position:fixed; left:290px; top:1030px">
-      <img id="Yes" src="images/ButtonYes.png" style="position:fixed; left:450px; top:1010px">
+      <img id="like" src="images/ButtonYes.png" style="position:fixed; left:450px; top:1010px">
     </div>
     <script>
 
